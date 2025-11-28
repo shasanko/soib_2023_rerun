@@ -1,0 +1,93 @@
+# R/RStudio files
+.Rhistory
+.Rapp.history
+.Rproj.user
+*.Rproj
+.DS_Store
+
+# raw data files
+*.txt
+*.zip
+*.rar
+
+*/data_rangemap_vagrants.csv
+00_data/BOW_image_list.csv
+00_data/state_summary_image_list.csv
+01_analyses_states/SoIB_state_summary.docx
+
+# RData files
+00_data/rawdata.RData
+00_data/data.RData
+00_data/dataforanalyses_extra.RData
+00_data/maps_pa_sf.RData
+00_data/grids_st_sf.Rdata
+00_data/randomgroupids.RData
+00_data/vagrantdata.RData
+01_analyses_full/*.RData
+!01_analyses_full/data_rangemap_info4state.RData
+!01_analyses_full/specieslists.RData
+
+# for any mask
+dataforanalyses.RData 
+randomgroupids.RData
+# list length
+randomgroupids_di.RData
+randomgroupids_du.RData
+
+# large CSVs
+dataforsim/
+trends/
+occupancy-model/
+occupancy-presence/
+
+
+# image outputs
+*.gif
+*.jpeg
+*.tiff
+*.tif
+*.png
+*.svg
+*.pdf
+
+
+# all shapefile related files
+#/*.dbf
+#/*.sbn
+#/*.sbx
+#/*.shp
+#/*.shp.xml
+#/*.shx
+#/*.cpg
+#/*.prj
+
+# specific folders in Ashwin's GitHub
+#India/
+#India Districts/
+#India States/
+All Trends/
+All Maps/
+All Trend Graphs/
+#Chennai/
+#New Delhi/
+#Mumbai/
+#Kolkata/
+#Hyderabad/
+#Bangalore/
+snippets/
+#NE_places/
+#NE_box/
+#NE_graticules/
+#NE_countries/
+#Division@Range6/
+
+# folders and specific files in Karthik's system
+hist_spread/
+hist_spread/*.RData
+hist_spread/*.csv
+hist_spread/figs/
+hist_spread/Ecoregions2017/
+hist_spread/ecoregions_reclass_viz_files/
+hist_spread/ecoregions_reclass_viz.html
+hist_spread/reg_abs.csv
+Literature/

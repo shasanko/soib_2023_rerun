@@ -1,0 +1,46 @@
+Required:
+- 00_data/SoIB_mapping_2022.csv
+- 00_data/spec_misid.RData
+- 01_analyses_full/dataforanalyses.RData
+- 01_analyses_full/fullspecieslist.csv
+- 01_analyses_full/randomgroupids.RData
+- 01_analyses_full/specieslists.RData
+- 01_analyses_full/sub_samp_locs.csv
+
+Ashwin had placed all thes files in the google drive folder - 
+https://drive.google.com/drive/u/0/folders/1ID4HU0h-0qbt7BxZ0mQSO6ilRsayb8sG;
+However, I struggled to load the randomgroupdids file in R, leading me to believe that the file was broken. So I spent a 
+considerable amount of time trying to see if the file from the backup folder -  
+https://drive.google.com/drive/folders/1CXPKGwBfgpH_mFFQIann59Wsw6u1nqcX - worked. It did. But later, I also determined
+that there may have been some issue in copying the file from my local machine to the remote server. 
+LATEST STATUS: Both randomgroupids files work and they are identical.
+
+Context:
+In the previous codebase, a file called sub_samp_locs.csv contains the LocalityID, groupID of data filtered at the species 
+level (in filter_data_for_species.R). Locations are randomly chosen from this file to create randomgroupids.RData 
+(in create_random_groupids.R). The randomgroupids file is a matrix of 1000 columns, where each column contains groupIDs 
+to sample a dataset for analyses. Then, 1000 random data files are created using this matrix (in create_random_datafiles.R). 
+- Now, p1s3.R creates the sub_samp_locs.csv file. In p2s1a.R, instead of creating a large matrix of randomgroupids which 
+will be used to create 1000 data files, 1000 random group ID files are created, each effectively containing a column from the 
+large matrix (in create_random_groupids_memrun_opt.R). Notably, the randomgroupIDs are converted to numeric in the R script.
+- It is time for the randomgroupids to talk to the data, dataforanalyses.R which was created in p1s3.R.
+In p2s2a.R, several changes are made for this to happen. For instance, the groupIDs in dataforanalyses.R are converted to numeric. Then comes the compute intensive step, p3s1a.R
+
+2023 data run:
+- First thing to do is to ensure that the older dataforanalyses.RData 
+is restructured to meet the requirements of the new pipeline. This was done using
+the script p2s2a.R. This means that the dataforanalyses.RData has numeric groupIDs including other changes.
+p2s2a.R also creates dataforanalyses.RDat-data_opt
+- We also have the old randomgroupids.RData. Since there is no large randomgroupID file in the new pipeline, 
+the old randomgroupids.RData need to be converted to the 1000 randomgroupid files. This is achieved using the
+remap-rgrids.R (from Shree's optimize_ram branch of the repository).
+- Run p3s1a.R and step through run_species_trends_container.R
+- There is a problem here. data is dataforanalyses.RData-data_opt and it contains numeric groupIDs. 
+The randomgroupid file rgids-1.RData also contains numeric groupIDs. Ideally, the latter groupids
+should be present in the former and we should be able to filter the big data file. But the filter step 
+yields 0 observations. Why?
+- I discovered that the issue is with how remap-grids.R creates the rgids-X.RData files. Each RData file contains a dataframe while we need vectors in the RData files. This ensures that the filtering step in p3s1a.R does not fail. See the script testing_rgid_mismatch_with_data.R for more details.
+
+
+Changed the following to enable 2025 data run using my method:
+1. data
