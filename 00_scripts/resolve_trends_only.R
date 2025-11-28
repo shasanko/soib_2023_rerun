@@ -153,7 +153,7 @@ modtrends5 <- ltt_sens_sim(my_seed = 5, data = modtrends)
 save(modtrends1, modtrends2, modtrends3, modtrends4, modtrends5, file = lttsens_path)
 
 # "main" simulated CIs
-set.seed(10) 
+#set.seed(10) 
 modtrends = modtrends %>% 
   # calculating CIs
   group_by(COMMON.NAME, timegroups) %>% 
@@ -218,7 +218,7 @@ modtrends_recent = trends %>%
   mutate(mean_std_recent = 100*mean/mean_year1)
 
 # Getting CIs for each year
-set.seed(10)
+#set.seed(10)
 modtrends_recent = modtrends_recent %>%
   # calculating CIs
   group_by(COMMON.NAME, timegroups) %>%
@@ -237,7 +237,7 @@ modtrends_recent = modtrends_recent %>%
 #   - 8x slopes and SEs for sensitivity analyses
 #   - exponential model predictions into future years
 
-set.seed(1)
+#set.seed(1)
 temp_sims <- modtrends_recent %>%
   group_by(COMMON.NAME) %>%
   dplyr::select(timegroups, rat, val) %>%
