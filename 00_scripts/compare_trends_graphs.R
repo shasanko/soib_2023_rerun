@@ -16,8 +16,8 @@ colnames <- c("timegroups", "COMMON.NAME", "lci", "mean", "rci",
               "lci_std", "mean_std", "rci_std",
               "lci_std_recent", "mean_std_recent", "rci_std_recent")
 
-old <- read.csv("01_analyses_full/results/trends_old_methods_2023.csv")[cols] # Change file name
-new <- read.csv("01_analyses_full/results/trends_test_run.csv")[cols] # Change file name
+old <- read.csv("01_analyses_full/results/trends_test_run.csv")[cols] # Change file name
+new <- read.csv("01_analyses_full/results/trends_test_rerun.csv")[cols] # Change file name
 
 
 names(old) <- colnames
@@ -280,7 +280,7 @@ i <- 1
            label, mean_std_old, mean_std_new,
            lci_std_old, lci_std_new, rci_std_old, rci_std_new)
   
-  # --- plotting methods comparison with old data (2023) ----
+  # --- Compare trends using new methods from a single run and a rerun ----
   p <- ggplot(plot_data, aes(x = timegroups)) +
     geom_ribbon(aes(ymin = lci_std_new, ymax = rci_std_new, fill = "New"), alpha = 0.25) +
     geom_ribbon(aes(ymin = lci_std_old, ymax = rci_std_old, fill = "Old"), alpha = 0.4) +
@@ -316,89 +316,9 @@ i <- 1
     )
   
   ggsave(
-    filename = "01_analyses_full/results/species_trends_methods_comp_old_data.jpg",
+    filename = "01_analyses_full/results/species_trends_run_rerun_compare.jpg",
     plot = p, width = 20, height = 10, dpi = 300, bg = "white"
   )
 
 
-  # --- plotting new methods with and without seeds -----
-  p <- ggplot(plot_data, aes(x = timegroups)) +
-    geom_ribbon(aes(ymin = lci_std_new, ymax = rci_std_new, fill = "No seed"), alpha = 0.25) +
-    geom_ribbon(aes(ymin = lci_std_old, ymax = rci_std_old, fill = "Fixed seed"), alpha = 0.4) +
-    geom_line(aes(y = mean_std_new, color = "No seed"), size = 1.1) +
-    geom_line(aes(y = mean_std_old, color = "Fixed seed"), size = 1.1) +
-    geom_hline(yintercept = 0, color = "black", linetype = "solid", linewidth = 0.8) +
-    geom_text(aes(x = min(timegroups, na.rm = TRUE), y = 0, label = baseline_label),
-              hjust = 0, vjust = -0.5, size = 3.2, color = "black") +
-    facet_wrap(~ label, scales = "free_y", ncol = 5) +
-    labs(
-      title = paste("Standardized species trends (batch", i, ")"),
-      x = "Year",
-      y = "Change relative to baseline (%)"
-    ) +
-    scale_color_manual(
-      name = "Trend Type",
-      values = c("Fixed seed" = "#1f77b4", "No seed" = "#d62728")
-    ) +
-    scale_fill_manual(
-      name = "Trend Type (CI)",
-      values = c("Fixed seed" = "#1f77b4", "No seed" = "#d62728")
-    ) +
-    # --- Y-axis signed labels (+/-)
-    scale_y_continuous(
-      labels = function(x) ifelse(x > 0, paste0("+", round(x, 0)), round(x, 0))
-    ) +
-    theme_minimal(base_size = 12) +
-    theme(
-      legend.position = "bottom",
-      legend.title = element_blank(),
-      strip.text = element_text(size = 9),
-      panel.grid.minor = element_blank()
-    )
   
-  ggsave(
-    filename = "01_analyses_full/results/species_trends_with_without_seed.jpg",
-  plot = p, width = 20, height = 10, dpi = 300, bg = "white"
-  )
-  
-  # --- plotting predinterval TRUE vs predinterval FALSE (default) ----
-  # TRUE was used in 2023 and FALSE is used currently.
-
-  p <- ggplot(plot_data, aes(x = timegroups)) +
-    geom_ribbon(aes(ymin = lci_std_new, ymax = rci_std_new, fill = "predinterval T"), alpha = 0.25) +
-    geom_ribbon(aes(ymin = lci_std_old, ymax = rci_std_old, fill = "predinterval F"), alpha = 0.4) +
-    geom_line(aes(y = mean_std_new, color = "predinterval T"), size = 1.1) +
-    geom_line(aes(y = mean_std_old, color = "predinterval F"), size = 1.1) +
-    geom_hline(yintercept = 0, color = "black", linetype = "solid", linewidth = 0.8) +
-    geom_text(aes(x = min(timegroups, na.rm = TRUE), y = 0, label = baseline_label),
-              hjust = 0, vjust = -0.5, size = 3.2, color = "black") +
-    facet_wrap(~ label, scales = "free_y", ncol = 5) +
-    labs(
-      title = paste("Standardized species trends (batch", i, ")"),
-      x = "Year",
-      y = "Change relative to baseline (%)"
-    ) +
-    scale_color_manual(
-      name = "Trend Type",
-      values = c("predinterval F" = "#1f77b4", "predinterval T" = "#d62728")
-    ) +
-    scale_fill_manual(
-      name = "Trend Type (CI)",
-      values = c("predinterval F" = "#1f77b4", "predinterval T" = "#d62728")
-    ) +
-    # --- Y-axis signed labels (+/-)
-    scale_y_continuous(
-      labels = function(x) ifelse(x > 0, paste0("+", round(x, 0)), round(x, 0))
-    ) +
-    theme_minimal(base_size = 12) +
-    theme(
-      legend.position = "bottom",
-      legend.title = element_blank(),
-      strip.text = element_text(size = 9),
-      panel.grid.minor = element_blank()
-    )
-  
-  ggsave(
-    filename = "01_analyses_full/results/species_trends_test_predinterval.jpg",
-    plot = p, width = 20, height = 10, dpi = 300, bg = "white"
-  )
