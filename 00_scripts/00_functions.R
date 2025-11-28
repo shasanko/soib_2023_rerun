@@ -1434,7 +1434,7 @@ singlespeciesrun_internal = function(container, reproducible, data, species_inde
     #pred = predict(m1, newdata = ltemp, type = "response", re.form = NA, allow.new.levels=TRUE)
     pred = predictInterval(m1, newdata = ltemp, which = "fixed",
                            level = 0.48, type = "linear.prediction",
-                           include.resid.var = FALSE)
+                           include.resid.var = TRUE)
     f2$freqt = pred$fit
     f2$set = pred$fit-pred$lwr
   }

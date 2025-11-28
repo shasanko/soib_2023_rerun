@@ -17,7 +17,7 @@ colnames <- c("timegroups", "COMMON.NAME", "lci", "mean", "rci",
               "lci_std_recent", "mean_std_recent", "rci_std_recent")
 
 old <- read.csv("01_analyses_full/results/trends_test_run.csv")[cols] # Change file name
-new <- read.csv("01_analyses_full/results/trends_seed_test_run_no_resolve_seed.csv")[cols] # Change file name
+new <- read.csv("01_analyses_full/results/trends_test_predinterval.csv")[cols] # Change file name
 
 
 names(old) <- colnames
@@ -316,7 +316,7 @@ i <- 1
     )
   
   ggsave(
-    filename = "01_analyses_full/results/species_trends_with_without_seed.jpg",
+    filename = "01_analyses_full/results/species_trends_test_predinterval.jpg",
     plot = p, width = 20, height = 10, dpi = 300, bg = "white"
   )
 

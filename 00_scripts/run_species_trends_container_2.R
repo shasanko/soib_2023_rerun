@@ -56,7 +56,7 @@ if (to_run == TRUE) {
   } else {
     
     if (!exists("my_assignment")) {
-      cur_assignment <- 1:1000
+      cur_assignment <- 1:500
     } else {
       cur_assignment <- my_assignment
     }

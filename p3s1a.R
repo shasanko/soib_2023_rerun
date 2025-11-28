@@ -161,7 +161,7 @@ if(container) {
 # full country runs -------------------------------------------------------
 
 if(!exists('my_assignment')) {
-  my_assignment <- 1:1000
+  my_assignment <- 1:500
 }
 
 # PART 3 (run) ------------------------------------------------------------------
